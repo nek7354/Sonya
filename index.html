@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0F1923">
+<title>Соня, присоединяйся 👀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1923;
+    --bg-2:#16212e;
+    --card:#1a2635;
+    --card-hi:#223245;
+    --red:#FF4655;
+    --teal:#00E5C9;
+    --pink:#FFB5C5;
+    --cream:#ECE8E1;
+    --muted:#7c8a99;
+    --line:rgba(236,232,225,.09);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#000;
+    color:var(--cream);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+
+  .phone{
+    position:relative;
+    width:100%;
+    max-width:420px;
+    height:100vh;
+    background:var(--bg);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+
+  @media (min-width:480px) and (min-height:760px){
+    .phone{
+      height:880px;
+      border-radius:44px;
+      box-shadow:0 0 0 10px #1a1a1a, 0 0 0 12px #2a2a2a, 0 40px 100px rgba(0,0,0,.8);
+    }
+  }
+
+  .screen{
+    flex:1;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scrollbar-width:none;
+    scroll-behavior:smooth;
+    position:relative;
+    background:
+      radial-gradient(ellipse 800px 400px at 50% -100px, rgba(255,70,85,.10), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 100% 60%, rgba(0,229,201,.06), transparent 70%),
+      var(--bg);
+  }
+  .screen::-webkit-scrollbar{display:none;}
+
+  /* ===== Мини-хедер ===== */
+  .mini-header{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 20px;
+    background:rgba(15,25,35,.72);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:600;
+  }
+  .status-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 8px #22c55e;
+    animation:pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot{50%{opacity:.55;}}
+  .mini-brand{
+    margin-left:auto;
+    color:var(--cream);
+    letter-spacing:.24em;
+    font-family:'Oswald',sans-serif;
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative;
+    padding:34px 22px 42px;
+    overflow:hidden;
+  }
+
+  .hud-corner{
+    position:absolute;
+    width:22px;height:22px;
+    border-color:var(--red);
+    border-style:solid;
+    border-width:0;
+    opacity:.85;
+  }
+  .hud-corner.tl{top:16px;left:16px;border-top-width:2px;border-left-width:2px;}
+  .hud-corner.tr{top:16px;right:16px;border-top-width:2px;border-right-width:2px;}
+  .hud-corner.bl{bottom:16px;left:16px;border-bottom-width:2px;border-left-width:2px;}
+  .hud-corner.br{bottom:16px;right:16px;border-bottom-width:2px;border-right-width:2px;}
+
+  .avatar-wrap{
+    position:relative;
+    width:62px;height:62px;
+    margin-bottom:22px;
+    z-index:2;
+  }
+  .avatar{
+    width:62px;height:62px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--red),var(--teal));
+    display:grid;place-items:center;
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:26px;
+    color:var(--bg);
+    border:2px solid var(--bg-2);
+  }
+  .online-dot{
+    position:absolute;
+    bottom:2px;right:2px;
+    width:14px;height:14px;
+    background:#22c55e;
+    border:2.5px solid var(--bg);
+    border-radius:50%;
+  }
+
+  .hero-title{
+    font-family:'Oswald',sans-serif;
+    font-size:44px;
+    line-height:.94;
+    letter-spacing:-.01em;
+    font-weight:700;
+    text-transform:uppercase;
+    margin-bottom:20px;
+    position:relative;
+    z-index:2;
+  }
+  .hero-title em{
+    font-style:normal;
+    font-family:'Caveat',cursive;
+    color:var(--red);
+    text-transform:none;
+    font-weight:700;
+    font-size:52px;
+    letter-spacing:-.02em;
+    display:inline-block;
+    transform:rotate(-2deg);
+    margin-top:2px;
+    line-height:1.05;
+  }
+
+  .hero-sub{
+    font-size:14.5px;
+    line-height:1.6;
+    color:var(--muted);
+    margin-bottom:26px;
+    max-width:290px;
+    position:relative;
+    z-index:2;
+  }
+
+  .cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--red);
+    color:#fff;
+    border:0;
+    border-radius:4px;
+    padding:14px 22px;
+    font-family:'Oswald',sans-serif;
+    font-size:13.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    font-weight:600;
+    cursor:pointer;
+    position:relative;
+    z-index:2;
+    clip-path:polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition:transform .15s, background .15s;
+  }
+  .cta:active{transform:translateY(1px);background:#e03546;}
+
+  /* Полароид / скотч / стикер */
+  .polaroid{
+    position:absolute;
+    top:26px;
+    right:-16px;
+    width:94px;
+    background:#fff;
+    padding:6px 6px 24px;
+    transform:rotate(11deg);
+    box-shadow:0 10px 26px rgba(0,0,0,.55);
+    z-index:1;
+  }
+  .polaroid-img{
+    width:100%;
+    height:68px;
+    background:
+      radial-gradient(circle at 50% 45%, rgba(255,255,255,.18) 0 12%, transparent 13%),
+      radial-gradient(circle at 50% 45%, transparent 0 30%, rgba(255,255,255,.15) 31% 33%, transparent 34%),
+      linear-gradient(135deg, var(--red) 0%, #7a1f29 55%, var(--teal) 100%);
+    display:grid;
+    place-items:center;
+    font-size:30px;
+    position:relative;
+    overflow:hidden;
+  }
+  .polaroid span{
+    display:block;
+    text-align:center;
+    font-family:'Caveat',cursive;
+    color:#222;
+    font-size:13px;
+    margin-top:5px;
+    font-weight:700;
+  }
+  .tape{
+    position:absolute;
+    top:16px;
+    right:50px;
+    width:56px;
+    height:16px;
+    background:rgba(255,220,130,.55);
+    transform:rotate(-8deg);
+    z-index:2;
+    box-shadow:0 2px 6px rgba(0,0,0,.35);
+  }
+  .sticker{
+    position:absolute;
+    top:150px;
+    right:24px;
+    font-size:24px;
+    transform:rotate(-15deg);
+    z-index:3;
+    animation:float 4s ease-in-out infinite;
+    opacity:.9;
+  }
+  @keyframes float{
+    0%,100%{transform:rotate(-15deg) translateY(0);}
+    50%{transform:rotate(-15deg) translateY(-6px);}
+  }
+
+  /* ===== Секции ===== */
+  .section{padding:22px 20px 10px;}
+
+  .section-label{
+    font-family:'Oswald',sans-serif;
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--red);
+    margin-bottom:8px;
+    font-weight:600;
+  }
+
+  .section-title{
+    font-family:'Oswald',sans-serif;
+    font-size:25px;
+    font-weight:600;
+    letter-spacing:-.005em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+
+  /* ===== Активности ===== */
+  .activity-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .activity-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:15px;
+    background:var(--card);
+    border:1.5px solid transparent;
+    border-radius:6px;
+    cursor:pointer;
+    transition:.2s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .activity-card::before{
+    content:"";
+    position:absolute;
+    left:0;top:0;bottom:0;
+    width:3px;
+    background:var(--accent,var(--red));
+    opacity:.35;
+    transition:opacity .2s;
+  }
+  .activity-card:hover{background:var(--card-hi);}
+  .activity-card.selected{
+    border-color:var(--accent,var(--red));
+    background:var(--card-hi);
+  }
+  .activity-card.selected::before{opacity:1;}
+
+  .activity-card[data-id="valorant"]{--accent:#FF4655;}
+  .activity-card[data-id="talk"]{--accent:#00E5C9;}
+  .activity-card[data-id="movie"]{--accent:#FFB5C5;}
+
+  .activity-icon{
+    flex-shrink:0;
+    width:44px;height:44px;
+    border-radius:8px;
+    display:grid;
+    place-items:center;
+    font-size:20px;
+    border:1px solid var(--line);
+  }
+  .activity-card[data-id="valorant"] .activity-icon{background:rgba(255,70,85,.14);}
+  .activity-card[data-id="talk"] .activity-icon{background:rgba(0,229,201,.12);}
+  .activity-card[data-id="movie"] .activity-icon{background:rgba(255,181,197,.14);}
+
+  .activity-info{flex:1;min-width:0;}
+  .activity-info h3{
+    font-family:'Oswald',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-bottom:3px;
+  }
+  .activity-info p{
+    font-size:12px;
+    color:var(--muted);
+    line-height:1.4;
+  }
+
+  .activity-check{
+    width:22px;height:22px;
+    border-radius:4px;
+    border:1.5px solid var(--line);
+    display:grid;
+    place-items:center;
+    font-size:13px;
+    color:transparent;
+    transition:.2s;
+    flex-shrink:0;
+    font-weight:700;
+  }
+  .activity-card.selected .activity-check{
+    background:var(--accent,var(--red));
+    border-color:var(--accent,var(--red));
+    color:#fff;
+  }
+
+  /* ===== Время ===== */
+  .time-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+  .time-slot{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:6px;
+    padding:15px 8px;
+    font-family:'Oswald',sans-serif;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:.08em;
+    color:var(--cream);
+    cursor:pointer;
+    transition:.2s ease;
+  }
+  .time-slot:hover{background:var(--card-hi);}
+  .time-slot.selected{
+    background:var(--teal);
+    color:var(--bg);
+    border-color:var(--teal);
+    box-shadow:0 0 20px rgba(0,229,201,.35);
+  }
+
+  /* ===== Подтверждение ===== */
+  .confirm-btn{
+    width:100%;
+    padding:19px;
+    background:var(--red);
+    color:#fff;
+    border:0;
+    border-radius:6px;
+    font-family:'Oswald',sans-serif;
+    font-size:17px;
+    font-weight:600;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    cursor:pointer;
+    clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    transition:.2s ease;
+  }
+  .confirm-btn:not(:disabled):hover{background:#e03546;}
+  .confirm-btn:not(:disabled):active{transform:translateY(1px);}
+  .confirm-btn:not(:disabled){
+    animation:glow-pulse 2s infinite;
+  }
+  @keyframes glow-pulse{
+    0%,100%{box-shadow:0 0 0 rgba(255,70,85,.55);}
+    50%{box-shadow:0 0 26px rgba(255,70,85,.55);}
+  }
+  .confirm-btn:disabled{
+    background:var(--card);
+    color:var(--muted);
+    cursor:not-allowed;
+    animation:none;
+  }
+  .confirm-note{
+    text-align:center;
+    font-size:11px;
+    color:var(--muted);
+    margin-top:12px;
+    letter-spacing:.08em;
+  }
+
+  /* ===== Футер ===== */
+  footer{
+    padding:32px 20px 55px;
+    text-align:center;
+  }
+  .signature{
+    font-family:'Caveat',cursive;
+    font-size:22px;
+    color:var(--pink);
+    margin-bottom:6px;
+    transform:rotate(-2deg);
+    display:inline-block;
+    font-weight:700;
+  }
+  .footer-note{
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:.1em;
+  }
+
+  /* ===== Успех ===== */
+  .success-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(15,25,35,.96);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    z-index:100;
+    opacity:0;
+    transition:opacity .3s;
+  }
+  .success-overlay.show{
+    display:flex;
+    opacity:1;
+  }
+  .success-card{
+    background:var(--card);
+    border:1.5px solid var(--teal);
+    border-radius:12px;
+    padding:36px 24px 24px;
+    text-align:center;
+    width:100%;
+    max-width:340px;
+    position:relative;
+    animation:pop-in .4s cubic-bezier(.2,.9,.3,1.2);
+    box-shadow:0 0 50px rgba(0,229,201,.22);
+  }
+  @keyframes pop-in{
+    0%{transform:scale(.85);opacity:0;}
+    100%{transform:scale(1);opacity:1;}
+  }
+  .success-icon{
+    width:68px;height:68px;
+    border-radius:50%;
+    background:var(--teal);
+    color:var(--bg);
+    display:grid;
+    place-items:center;
+    font-size:34px;
+    font-weight:700;
+    margin:0 auto 18px;
+    box-shadow:0 0 32px rgba(0,229,201,.55);
+    animation:check-pop .5s .15s cubic-bezier(.2,.9,.3,1.5) both;
+  }
+  @keyframes check-pop{
+    0%{transform:scale(0);}
+    100%{transform:scale(1);}
+  }
+  .success-card h2{
+    font-family:'Oswald',sans-serif;
+    font-size:26px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    margin-bottom:6px;
+  }
+  .success-card > p{
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:22px;
+  }
+  .success-detail{
+    background:var(--bg-2);
+    border-radius:6px;
+    padding:14px;
+    margin-bottom:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .success-detail > div{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:13px;
+  }
+  .success-detail .label{
+    color:var(--muted);
+    font-size:10.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  .btn-secondary{
+    background:transparent;
+    border:1.5px solid var(--line);
+    color:var(--cream);
+    padding:12px 24px;
+    border-radius:6px;
+    font-family:'Oswald',sans-serif;
+    font-size:13px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:600;
+    cursor:pointer;
+    width:100%;
+    transition:.2s;
+  }
+  .btn-secondary:hover{background:var(--bg-2);}
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="screen" id="screen">
+
+    <!-- Мини-хедер -->
+    <div class="mini-header">
+      <span class="status-dot"></span>
+      <span>online</span>
+      <span class="mini-brand">Discord</span>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hud-corner tl"></div>
+      <div class="hud-corner tr"></div>
+      <div class="hud-corner bl"></div>
+      <div class="hud-corner br"></div>
+
+      <div class="avatar-wrap">
+        <div class="avatar">С</div>
+        <div class="online-dot"></div>
+      </div>
+
+      <h1 class="hero-title">
+        Соня,<br>
+        <em>присоединяйся 👀</em>
+      </h1>
+
+      <p class="hero-sub">
+        Давай проведём вечер вместе в Discord — выбери, когда тебе удобно и чем займёмся, а я подстроюсь.
+      </p>
+
+      <button class="cta" onclick="document.getElementById('activities').scrollIntoView({behavior:'smooth'})">
+        Присоединиться
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </button>
+
+      <div class="polaroid">
+        <div class="polaroid-img">🎯</div>
+        <span>вечер с Соней</span>
+      </div>
+      <div class="tape"></div>
+      <div class="sticker">✨</div>
+    </section>
+
+    <!-- АКТИВНОСТИ -->
+    <section class="section" id="activities">
+      <div class="section-label">01 · чем займёмся</div>
+      <h2 class="section-title">Выбери активности</h2>
+
+      <div class="activity-list">
+        <div class="activity-card" data-id="valorant">
+          <div class="activity-icon">🎯</div>
+          <div class="activity-info">
+            <h3>Valorant</h3>
+            <p>дуо в ранкед или кастомки</p>
+          </div>
+          <div class="activity-check">✓</div>
+        </div>
+
+        <div class="activity-card" data-id="talk">
+          <div class="activity-icon">💬</div>
+          <div class="activity-info">
+            <h3>Поговорить</h3>
+            <p>просто в войсе — мемы, обо всём</p>
+          </div>
+          <div class="activity-check">✓</div>
+        </div>
+
+        <div class="activity-card" data-id="movie">
+          <div class="activity-icon">🍿</div>
+          <div class="activity-info">
+            <h3>Фильм / YouTube</h3>
+            <p>watch party в Discord</p>
+          </div>
+          <div class="activity-check">✓</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ВРЕМЯ -->
+    <section class="section" id="time">
+      <div class="section-label">02 · когда</div>
+      <h2 class="section-title">Сегодня, удобно?</h2>
+
+      <div class="time-grid">
+        <button class="time-slot" data-time="18:00">18:00</button>
+        <button class="time-slot" data-time="19:00">19:00</button>
+        <button class="time-slot" data-time="20:00">20:00</button>
+        <button class="time-slot" data-time="21:00">21:00</button>
+        <button class="time-slot" data-time="22:00">22:00</button>
+        <button class="time-slot" data-time="23:00">23:00</button>
+      </div>
+    </section>
+
+    <!-- ПОДТВЕРЖДЕНИЕ -->
+    <section class="section" id="confirm">
+      <button class="confirm-btn" id="confirmBtn" disabled onclick="confirmMeeting()">
+        Я буду 🎉
+      </button>
+      <p class="confirm-note">подтверждение придёт в Telegram</p>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+      <div class="signature">— твой напарник по вечеру</div>
+      <div class="footer-note">сделано с ♥ и Valorant-прицелом</div>
+    </footer>
+
+  </div>
+
+  <!-- Оверлей успеха -->
+  <div class="success-overlay" id="successOverlay">
+    <div class="success-card">
+      <div class="success-icon">✓</div>
+      <h2>Соня в деле!</h2>
+      <p>Подтверждение отправлено</p>
+      <div class="success-detail">
+        <div>
+          <span class="label">Когда</span>
+          <span id="successTime">—</span>
+        </div>
+        <div>
+          <span class="label">Чем</span>
+          <span id="successActivities">—</span>
+        </div>
+      </div>
+      <button class="btn-secondary" onclick="closeSuccess()">закрыть</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* ===== State ===== */
+  const state = {
+    activities: new Set(),
+    time: null,
+    confirmed: false
+  };
+
+  const ACTIVITY_NAMES = {
+    valorant: 'Valorant',
+    talk: 'Поговорить',
+    movie: 'Фильм / YouTube'
+  };
+
+  /* ===== Telegram connector ===== */
+  const TG_TOKEN   = '8824802274:AAFZkjpQ0m1ilqMCuVKdnFwI0LSoXp5-xT8';
+  const TG_CHAT_ID = '750771887';
+
+  function sendToTelegram(text) {
+    // Image-beacon: обходит CORS, сообщение гарантированно уходит
+    return new Promise(resolve => {
+      const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`
+        + `?chat_id=${TG_CHAT_ID}`
+        + `&parse_mode=HTML`
+        + `&text=${encodeURIComponent(text)}`;
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(true); // ответ не картинка — это норма
+      img.src = url;
+      setTimeout(() => resolve(true), 1800);
+    });
+  }
+
+  /* ===== Выбор активностей ===== */
+  document.querySelectorAll('.activity-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if (state.confirmed) return;
+      const id = card.dataset.id;
+      if (state.activities.has(id)) {
+        state.activities.delete(id);
+        card.classList.remove('selected');
+      } else {
+        state.activities.add(id);
+        card.classList.add('selected');
+      }
+      updateBtn();
+    });
+  });
+
+  /* ===== Выбор времени ===== */
+  document.querySelectorAll('.time-slot').forEach(slot => {
+    slot.addEventListener('click', () => {
+      if (state.confirmed) return;
+      document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+      slot.classList.add('selected');
+      state.time = slot.dataset.time;
+      updateBtn();
+    });
+  });
+
+  function updateBtn() {
+    const btn = document.getElementById('confirmBtn');
+    const ready = state.activities.size > 0 && state.time;
+    btn.disabled = !ready || state.confirmed;
+  }
+
+  /* ===== Подтверждение ===== */
+  async function confirmMeeting() {
+    if (state.confirmed) return;
+    state.confirmed = true;
+
+    const btn = document.getElementById('confirmBtn');
+    btn.disabled = true;
+    btn.textContent = 'Отправляем...';
+
+    const activities = Array.from(state.activities)
+      .map(id => ACTIVITY_NAMES[id])
+      .join(', ');
+
+    const message =
+      '✅ <b>Соня будет!</b>\n\n' +
+      '🕒 Время: сегодня, ' + state.time + '\n' +
+      '🎮 Чем займёмся: ' + activities + '\n\n' +
+      '💌 Подтверждение из приглашения';
+
+    await sendToTelegram(message);
+
+    document.getElementById('successTime').textContent = 'сегодня, ' + state.time;
+    document.getElementById('successActivities').textContent = activities;
+
+    document.getElementById('successOverlay').classList.add('show');
+
+    btn.textContent = 'Подтверждено ✓';
+    btn.disabled = true;
+  }
+
+  function closeSuccess() {
+    document.getElementById('successOverlay').classList.remove('show');
+  }
+</script>
+
+</body>
+</html>
