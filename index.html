@@ -70,7 +70,6 @@
   }
   .screen::-webkit-scrollbar{display:none;}
 
-  /* ===== Мини-хедер ===== */
   .mini-header{
     position:sticky;
     top:0;
@@ -103,7 +102,6 @@
     font-family:'Oswald',sans-serif;
   }
 
-  /* ===== Hero ===== */
   .hero{
     position:relative;
     padding:34px 22px 42px;
@@ -206,7 +204,6 @@
   }
   .cta:active{transform:translateY(1px);background:#e03546;}
 
-  /* Полароид / скотч / стикер */
   .polaroid{
     position:absolute;
     top:26px;
@@ -266,7 +263,6 @@
     50%{transform:rotate(-15deg) translateY(-6px);}
   }
 
-  /* ===== Секции ===== */
   .section{padding:22px 20px 10px;}
 
   .section-label{
@@ -288,7 +284,6 @@
     margin-bottom:16px;
   }
 
-  /* ===== Активности ===== */
   .activity-list{
     display:flex;
     flex-direction:column;
@@ -374,7 +369,6 @@
     color:#fff;
   }
 
-  /* ===== Время ===== */
   .time-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -401,7 +395,12 @@
     box-shadow:0 0 20px rgba(0,229,201,.35);
   }
 
-  /* ===== Подтверждение ===== */
+  .confirm-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
   .confirm-btn{
     width:100%;
     padding:19px;
@@ -433,6 +432,35 @@
     cursor:not-allowed;
     animation:none;
   }
+
+  /* Кнопка "не смогу" */
+  .decline-btn{
+    width:100%;
+    padding:15px;
+    background:transparent;
+    color:var(--muted);
+    border:1.5px solid var(--line);
+    border-radius:6px;
+    font-family:'Oswald',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:.2s ease;
+  }
+  .decline-btn:hover{
+    color:var(--cream);
+    border-color:rgba(236,232,225,.28);
+    background:rgba(236,232,225,.03);
+  }
+  .decline-btn:active{transform:translateY(1px);}
+  .decline-btn:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+    transform:none;
+  }
+
   .confirm-note{
     text-align:center;
     font-size:11px;
@@ -441,7 +469,6 @@
     letter-spacing:.08em;
   }
 
-  /* ===== Футер ===== */
   footer{
     padding:32px 20px 55px;
     text-align:center;
@@ -461,7 +488,6 @@
     letter-spacing:.1em;
   }
 
-  /* ===== Успех ===== */
   .success-overlay{
     position:absolute;
     inset:0;
@@ -492,6 +518,10 @@
     animation:pop-in .4s cubic-bezier(.2,.9,.3,1.2);
     box-shadow:0 0 50px rgba(0,229,201,.22);
   }
+  .success-card.decline{
+    border-color:rgba(255,181,197,.45);
+    box-shadow:0 0 50px rgba(255,181,197,.18);
+  }
   @keyframes pop-in{
     0%{transform:scale(.85);opacity:0;}
     100%{transform:scale(1);opacity:1;}
@@ -508,6 +538,11 @@
     margin:0 auto 18px;
     box-shadow:0 0 32px rgba(0,229,201,.55);
     animation:check-pop .5s .15s cubic-bezier(.2,.9,.3,1.5) both;
+  }
+  .success-card.decline .success-icon{
+    background:var(--pink);
+    box-shadow:0 0 32px rgba(255,181,197,.45);
+    font-size:30px;
   }
   @keyframes check-pop{
     0%{transform:scale(0);}
@@ -572,14 +607,12 @@
 
   <div class="screen" id="screen">
 
-    <!-- Мини-хедер -->
     <div class="mini-header">
       <span class="status-dot"></span>
       <span>online</span>
       <span class="mini-brand">Discord</span>
     </div>
 
-    <!-- HERO -->
     <section class="hero">
       <div class="hud-corner tl"></div>
       <div class="hud-corner tr"></div>
@@ -615,7 +648,6 @@
       <div class="sticker">✨</div>
     </section>
 
-    <!-- АКТИВНОСТИ -->
     <section class="section" id="activities">
       <div class="section-label">01 · чем займёмся</div>
       <h2 class="section-title">Выбери активности</h2>
@@ -650,7 +682,6 @@
       </div>
     </section>
 
-    <!-- ВРЕМЯ -->
     <section class="section" id="time">
       <div class="section-label">02 · когда</div>
       <h2 class="section-title">Сегодня, удобно?</h2>
@@ -665,15 +696,18 @@
       </div>
     </section>
 
-    <!-- ПОДТВЕРЖДЕНИЕ -->
     <section class="section" id="confirm">
-      <button class="confirm-btn" id="confirmBtn" disabled onclick="confirmMeeting()">
-        Я буду 🎉
-      </button>
+      <div class="confirm-wrap">
+        <button class="confirm-btn" id="confirmBtn" disabled onclick="confirmMeeting()">
+          Я буду 🎉
+        </button>
+        <button class="decline-btn" id="declineBtn" onclick="declineMeeting()">
+          Не смогу 😔
+        </button>
+      </div>
       <p class="confirm-note">подтверждение придёт в Telegram</p>
     </section>
 
-    <!-- Футер -->
     <footer>
       <div class="signature">— твой напарник по вечеру</div>
       <div class="footer-note">сделано с ♥ и Valorant-прицелом</div>
@@ -683,11 +717,11 @@
 
   <!-- Оверлей успеха -->
   <div class="success-overlay" id="successOverlay">
-    <div class="success-card">
-      <div class="success-icon">✓</div>
-      <h2>Соня в деле!</h2>
-      <p>Подтверждение отправлено</p>
-      <div class="success-detail">
+    <div class="success-card" id="successCard">
+      <div class="success-icon" id="successIcon">✓</div>
+      <h2 id="successTitle">Соня в деле!</h2>
+      <p id="successSubtitle">Подтверждение отправлено</p>
+      <div class="success-detail" id="successDetail">
         <div>
           <span class="label">Когда</span>
           <span id="successTime">—</span>
@@ -708,7 +742,8 @@
   const state = {
     activities: new Set(),
     time: null,
-    confirmed: false
+    confirmed: false,
+    declined: false
   };
 
   const ACTIVITY_NAMES = {
@@ -722,7 +757,6 @@
   const TG_CHAT_ID = '750771887';
 
   function sendToTelegram(text) {
-    // Image-beacon: обходит CORS, сообщение гарантированно уходит
     return new Promise(resolve => {
       const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`
         + `?chat_id=${TG_CHAT_ID}`
@@ -730,7 +764,7 @@
         + `&text=${encodeURIComponent(text)}`;
       const img = new Image();
       img.onload = () => resolve(true);
-      img.onerror = () => resolve(true); // ответ не картинка — это норма
+      img.onerror = () => resolve(true);
       img.src = url;
       setTimeout(() => resolve(true), 1800);
     });
@@ -739,7 +773,7 @@
   /* ===== Выбор активностей ===== */
   document.querySelectorAll('.activity-card').forEach(card => {
     card.addEventListener('click', () => {
-      if (state.confirmed) return;
+      if (state.confirmed || state.declined) return;
       const id = card.dataset.id;
       if (state.activities.has(id)) {
         state.activities.delete(id);
@@ -755,7 +789,7 @@
   /* ===== Выбор времени ===== */
   document.querySelectorAll('.time-slot').forEach(slot => {
     slot.addEventListener('click', () => {
-      if (state.confirmed) return;
+      if (state.confirmed || state.declined) return;
       document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
       slot.classList.add('selected');
       state.time = slot.dataset.time;
@@ -766,16 +800,18 @@
   function updateBtn() {
     const btn = document.getElementById('confirmBtn');
     const ready = state.activities.size > 0 && state.time;
-    btn.disabled = !ready || state.confirmed;
+    btn.disabled = !ready || state.confirmed || state.declined;
   }
 
   /* ===== Подтверждение ===== */
   async function confirmMeeting() {
-    if (state.confirmed) return;
+    if (state.confirmed || state.declined) return;
     state.confirmed = true;
 
     const btn = document.getElementById('confirmBtn');
+    const declineBtn = document.getElementById('declineBtn');
     btn.disabled = true;
+    declineBtn.disabled = true;
     btn.textContent = 'Отправляем...';
 
     const activities = Array.from(state.activities)
@@ -790,13 +826,53 @@
 
     await sendToTelegram(message);
 
+    /* Оверлей — успех */
+    const card = document.getElementById('successCard');
+    card.classList.remove('decline');
+    document.getElementById('successIcon').textContent = '✓';
+    document.getElementById('successTitle').textContent = 'Соня в деле!';
+    document.getElementById('successSubtitle').textContent = 'Подтверждение отправлено';
+    document.getElementById('successDetail').style.display = 'flex';
     document.getElementById('successTime').textContent = 'сегодня, ' + state.time;
     document.getElementById('successActivities').textContent = activities;
 
     document.getElementById('successOverlay').classList.add('show');
 
     btn.textContent = 'Подтверждено ✓';
+    declineBtn.textContent = 'Не смогу 😔';
+    declineBtn.disabled = true;
+  }
+
+  /* ===== Отказ ===== */
+  async function declineMeeting() {
+    if (state.confirmed || state.declined) return;
+    state.declined = true;
+
+    const btn = document.getElementById('confirmBtn');
+    const declineBtn = document.getElementById('declineBtn');
     btn.disabled = true;
+    declineBtn.disabled = true;
+    declineBtn.textContent = 'Отправляем...';
+
+    const message =
+      '😔 <b>Соня не сможет</b>\n\n' +
+      '🕒 Сегодня не получается — предложи другой день\n\n' +
+      '💌 Ответ из приглашения';
+
+    await sendToTelegram(message);
+
+    /* Оверлей — мягкий отказ */
+    const card = document.getElementById('successCard');
+    card.classList.add('decline');
+    document.getElementById('successIcon').textContent = '🌙';
+    document.getElementById('successTitle').textContent = 'Понял, перенесём';
+    document.getElementById('successSubtitle').textContent = 'Твой ответ отправлен — договоримся на другой день';
+    document.getElementById('successDetail').style.display = 'none';
+
+    document.getElementById('successOverlay').classList.add('show');
+
+    declineBtn.textContent = 'Ответ отправлен';
+    btn.textContent = 'Я буду 🎉';
   }
 
   function closeSuccess() {
